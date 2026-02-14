@@ -72,8 +72,6 @@ A professional and feature-rich BMI (Body Mass Index) tracking application built
 ### Video Demo
 [Click here to view the demo video](assets/demo.mp4)
 
-*(Note: Ensure your screenshots are named `signin.png`, `setup.png`, `dashboard.png`, `graph.png` and your video is named `demo.mp4` inside the `assets/` folder.)*
-
 ## ⚙️ Getting Started
 
 1. **Clone the repository**:
