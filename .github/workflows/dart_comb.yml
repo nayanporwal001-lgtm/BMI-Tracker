@@ -1,11 +1,11 @@
-name: Flutter-Cross-Platform-Debug-Build
+name: Flutter-Cross-Platform-Build
 
 on:
   workflow_dispatch:
 
 jobs:
   build-android:
-    name: 📱 Android Debug APK
+    name: 📱 Android APK Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,16 +25,16 @@ jobs:
           ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
           EOF
       
-      - run: flutter build apk --debug
+      - run: flutter build apk --release
       
-      - name: Upload Android Debug APK
+      - name: Upload Android APK
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/app/outputs/flutter-apk/app-debug.apk
+          file: build/app/outputs/flutter-apk/app-release.apk
           tag: v1.0
           overwrite: true
-          body: "Android Debug APK - Google Sign-In ✓"
+          body: "Android APK with Firebase"
 
   build-ios:
     name: 🍎 iOS IPA Build
@@ -77,4 +77,4 @@ jobs:
           file: build/ios/iphoneos/FlutterIpaExport.ipa
           tag: v1.0
           overwrite: true
-          body: "iOS IPA with Firebase"
+          body: "iOS IPA with Firebase (no-codesign)"
