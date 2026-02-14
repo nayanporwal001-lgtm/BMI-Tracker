@@ -65,14 +65,14 @@ A professional and feature-rich BMI (Body Mass Index) tracking application built
 ## 📸 Screenshots & Demo
 
 ### Screenshots
-| Splash & Login | BMI Setup | Dashboard & Graph |
-| :---: | :---: | :---: |
-| ![Splash](screenshots/splash.png) | ![Setup](screenshots/setup.png) | ![Dashboard](screenshots/dashboard.png) |
+|            Sign In            |          BMI Setup          |              Dashboard              |       Progress Graph        |
+|:-----------------------------:|:---------------------------:|:-----------------------------------:|:---------------------------:|
+| ![SignIn](assets/signin.jpeg) | ![Setup](assets/setup.jpeg) | ![Dashboard](assets/dashboard.jpeg) | ![Graph](assets/graph.jpeg) |
 
 ### Video Demo
-[Click here to view the demo video](videos/demo.mp4)
+[Click here to view the demo video](assets/demo.mp4)
 
-*(Note: Please add your screenshot images to a `screenshots` folder and your video to a `videos` folder in the root directory to see them here.)*
+*(Note: Ensure your screenshots are named `signin.png`, `setup.png`, `dashboard.png`, `graph.png` and your video is named `demo.mp4` inside the `assets/` folder.)*
 
 ## ⚙️ Getting Started
 
