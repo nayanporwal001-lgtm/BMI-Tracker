@@ -1,0 +1,80 @@
+name: Flutter-Cross-Platform-Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    name: 📱 Android APK Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          architecture: x64
+      
+      - run: flutter pub get
+      
+      - name: Setup Firebase google-services.json
+        env:
+          GOOGLE_SERVICES_JSON_CONTENT: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
+        run: |
+          cat > android/app/google-services.json << 'EOF'
+          ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
+          EOF
+      
+      - run: flutter build apk --release
+      
+      - name: Upload Android APK
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/app/outputs/flutter-apk/app-release.apk
+          tag: v1.0
+          overwrite: true
+          body: "Android APK with Firebase"
+
+  build-ios:
+    name: 🍎 iOS IPA Build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          architecture: x64
+      
+      - run: flutter pub get
+      
+      - name: Update CocoaPods
+        working-directory: ios
+        run: pod repo update
+      
+      - name: Setup Firebase GoogleService-Info.plist
+        env:
+          GOOGLE_SERVICE_PLIST_CONTENT: ${{ secrets.GOOGLE_SERVICE_PLIST_CONTENT }}
+        run: |
+          cat > ios/Runner/GoogleService-Info.plist << 'EOF'
+          ${{ secrets.GOOGLE_SERVICE_PLIST_CONTENT }}
+          EOF
+      
+      - run: flutter build ios --release --no-codesign
+      
+      - name: Create iOS IPA
+        working-directory: build/ios/iphoneos
+        run: |
+          mkdir Payload
+          mv Runner.app Payload/
+          zip -qq -r -9 FlutterIpaExport.ipa Payload
+      
+      - name: Upload iOS IPA
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/ios/iphoneos/FlutterIpaExport.ipa
+          tag: v1.0
+          overwrite: true
+          body: "iOS IPA with Firebase (no-codesign)"
